@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
-import { SupermercadoEntity } from 'src/supermercado/supermercado.entity';
+import { SupermercadoEntity } from '../supermercado/supermercado.entity';
 
 @Entity()
 export class CiudadEntity {
