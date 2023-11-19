@@ -1,0 +1,825 @@
+{
+	"info": {
+		"_postman_id": "e30c89e7-bc10-443a-b085-014b91f47cc6",
+		"name": "ColeccionCiudadSupermercadoParcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23108247"
+	},
+	"item": [
+		{
+			"name": "AddSupermarket2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"supermarket_id_2\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Mercado del Sol\",\r\n    \"longitud\": \"-60.7145\",\r\n    \"latitud\": \"-31.6324\",\r\n    \"paginaWeb\": \"www.mercadodelsol.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddSupermarket3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"supermarket_id_3\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Mercado del Verano\",\r\n    \"longitud\": \"-60.7145\",\r\n    \"latitud\": \"-31.6324\",\r\n    \"paginaWeb\": \"www.mercadoverano.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddSupermarkettoCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddSupermarkettoCity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"Santafe\",\n    \"pais\": \"Argentina\",\n    \"numHabitantes\": \"4567546\",\n    \"supermercados\": [\n        {\n            \"id\": \"1\",\n            \"nombre\": \"La Gran Tienda\",\n            \"longitud\": \"-60.7086\",\n            \"latitud\": \"-31.6457\",\n            \"paginaWeb\": \"www.lagrantienda.com.ar\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "AddInvalidSupermarkettoCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddInvalidSupermarkettoCity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró un supermercado con ese id\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetSupermarketsfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetSupermarketsfromCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\r\n\r\n        {\r\n            \"id\": \"1\",\r\n            \"nombre\": \"Mercado del Sol\",\r\n            \"longitud\": \"-60.7145\",\r\n            \"latitud\": \"-31.6324\",\r\n            \"paginaWeb\": \"www.mercadodelsol.com.ar\"\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"nombre\": \"La Gran Tienda\",\r\n            \"longitud\": \"-60.7086\",\r\n            \"latitud\": \"-31.6457\",\r\n            \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n        }\r\n\r\n]\r\n"
+				}
+			]
+		},
+		{
+			"name": "GetSupermarketfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetSupermarketfromCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"Mercado del Sol\",\n    \"longitud\": \"-60.7145\",\n    \"latitud\": \"-31.6324\",\n    \"paginaWeb\": \"www.mercadodelsol.com.ar\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetInvalidSupermarketfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetInvalidCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró un supermercado con ese id\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateSupermarketfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n       \"id\": \"{{supermarket_id_2}}\"\r\n   }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateSupermarketfromCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Santafe\",\r\n    \"pais\": \"Argentina\",\r\n    \"numHabitantes\": \"450000\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateInvalidSupermarkettoCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n       \"id\": \"00000000-0000-0000-0000-000000000000\"\r\n   }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateInvalidSupermarkettoCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n   \"statusCode\": 404,\r\n   \"message\": \"No se encontró un supermercado con ese id\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "DeleteSupermarketfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteSupermarketfromCity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "DeleteInvalidSupermarketfromCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {\r",
+							"   pm.response.to.have.status(412);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"El supermercado con ese id no está asociado a esa ciudad\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id_3}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}",
+						"supermarkets",
+						"{{supermarket_id_3}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteInvalidSupermarketCity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}/supermarkets/{{supermarket_id_3}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}",
+								"supermarkets",
+								"{{supermarket_id_3}}"
+							]
+						}
+					},
+					"status": "Precondition Failed",
+					"code": 412,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 412,\n   \"message\": \"El supermercado con ese id no está asociado a esa ciudad\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}

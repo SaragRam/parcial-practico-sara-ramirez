@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "043064d8-1db1-4440-a84e-2fbc3079c722",
+		"name": "ColeccionCiudadParcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23108247"
+	},
+	"item": [
+		{
+			"name": "AddCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"city_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"4567546\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddCity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"4567546\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"Santafe\",\n    \"pais\": \"Argentina\",\n    \"numHabitantes\": \"4567546\",\n    \"supermercados\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "AddInvalidCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"   pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"El país solo puede tener los valores Argentina, Ecuador o Paraguay\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"nombre\": \"Santiago\",\r\n   \"pais\": \"Chile\",\r\n   \"numHabitantes\": \"4560000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddInvalidCity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santiago\",\r\n   \"pais\": \"Chile\",\r\n   \"numHabitantes\": \"4560000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 400,\n   \"message\": \"El país solo puede tener los valores Argentina, Ecuador o Paraguay\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetCities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Number of cities > ' + 0, function () {\r",
+							"   var data = pm.response.json()\r",
+							"   pm.expect(data.length).to.greaterThan(0)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetCities",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\r\n        {\r\n            \"id\": \"1\",\r\n            \"nombre\": \"Santafe\",\r\n            \"pais\": \"Argentina\",\r\n            \"numHabitantes\": \"4567546\",\r\n            \"supermercados\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"nombre\": \"Mercado del Sol\",\r\n                    \"longitud\": \"-60.7145\",\r\n                    \"latitud\": \"-31.6324\",\r\n                    \"paginaWeb\": \"www.mercadodelsol.com.ar\"\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"nombre\": \"La Gran Tienda\",\r\n                    \"longitud\": \"-60.7086\",\r\n                    \"latitud\": \"-31.6457\",\r\n                    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"nombre\": \"Córdoba\",\r\n            \"pais\": \"Argentina\",\r\n            \"numHabitantes\": \"1430000\",\r\n            \"supermercados\": [\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"nombre\": \"Supermaxi Córdoba\",\r\n                    \"longitud\": \"-64.1833\",\r\n                    \"latitud\": \"-31.4167\",\r\n                    \"paginaWeb\": \"www.supermaxicordoba.com.ar\"\r\n                },\r\n                {\r\n                    \"id\": \"4\",\r\n                    \"nombre\": \"Mercadito Central\",\r\n                    \"longitud\": \"-64.1888\",\r\n                    \"latitud\": \"-31.4208\",\r\n                    \"paginaWeb\": \"www.mercaditocentral.com.ar\"\r\n                }\r\n            ]\r\n        }\r\n]\r\n"
+				}
+			]
+		},
+		{
+			"name": "GetCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"Santafe\",\n    \"pais\": \"Argentina\",\n    \"numHabitantes\": \"4567546\",\n    \"supermercados\": [\n        {\n            \"id\": \"1\",\n            \"nombre\": \"Mercado del Sol\",\n            \"longitud\": \"-60.7145\",\n            \"latitud\": \"-31.6324\",\n            \"paginaWeb\": \"www.mercadodelsol.com.ar\"\n        },\n        {\n            \"id\": \"2\",\n            \"nombre\": \"La Gran Tienda\",\n            \"longitud\": \"-60.7086\",\n            \"latitud\": \"-31.6457\",\n            \"paginaWeb\": \"www.lagrantienda.com.ar\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "GetInvalidCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró una ciudad con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetInvalidCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró una ciudad con ese id\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Santafe\",\r\n    \"pais\": \"Argentina\",\r\n    \"numHabitantes\": \"450000\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateInvalidCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró una ciudad con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateInvalidCity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santafe\",\r\n   \"pais\": \"Argentina\",\r\n   \"numHabitantes\": \"450000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n   \"statusCode\": 404,\r\n   \"message\": \"No se encontró una ciudad con ese id\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "DeleteCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/{{city_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"{{city_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteCity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/{{city_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"{{city_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "DeleteInvalidCity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró una ciudad con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cities",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteInvalidCity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cities/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cities",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró una ciudad con ese id\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}

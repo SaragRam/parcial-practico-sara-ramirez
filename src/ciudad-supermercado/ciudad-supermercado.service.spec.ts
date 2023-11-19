@@ -138,28 +138,6 @@ describe('CiudadSupermercadoService', () => {
   });
 
   it('updateSupermarketsFromCity should update a supermarket from a city', async () => {
-    const supermercado: SupermercadoEntity = supermercadosList[0];
-    supermercado.paginaWeb = faker.internet.url();
-    const storedCiudad: CiudadEntity = await service.updateSupermarketsFromCity(ciudad.id, supermercado.id, supermercado);
-    const storedSupermercado: SupermercadoEntity = storedCiudad.supermercados.find(e => e.id === supermercado.id);
-    expect(storedSupermercado).not.toBeNull();
-    expect(storedSupermercado.paginaWeb).toEqual(supermercado.paginaWeb)
-
-  });
-
-  it('updateSupermarketsFromCity should thrown exception for an invalid supermarket', async () => {
-    const supermercado: SupermercadoEntity = supermercadosList[0];
-    supermercado.paginaWeb = faker.internet.url();
-    await expect(() => service.updateSupermarketsFromCity(ciudad.id, "0", supermercado)).rejects.toHaveProperty("message", "No se encontró un supermercado con ese id")
-  });
-
-  it('updateSupermarketsFromCity should thrown exception for an invalid city', async () => {
-    const supermercado: SupermercadoEntity = supermercadosList[0];
-    supermercado.paginaWeb = faker.internet.url();
-    await expect(() => service.updateSupermarketsFromCity("0", supermercado.id, supermercado)).rejects.toHaveProperty("message", "No se encontró una ciudad con ese id")
-  });
-
-  it('updateSupermarketsFromCity should thrown exception for a supermarket not associated to a city', async () => {
     const newSupermercado: SupermercadoEntity = await supermercadoRepository.save({
       nombre: faker.random.alphaNumeric(11),
       longitud: faker.datatype.number().toString(),
@@ -167,7 +145,30 @@ describe('CiudadSupermercadoService', () => {
       paginaWeb: faker.internet.url(), 
     });
 
-    await expect(() => service.updateSupermarketsFromCity(ciudad.id, newSupermercado.id, newSupermercado)).rejects.toHaveProperty("message", "El supermercado con ese id no está asociado a esa ciudad")
+    const updatedCiudad: CiudadEntity = await service.updateSupermarketsFromCity(ciudad.id, [newSupermercado]);
+    expect(updatedCiudad.supermercados.length).toBe(1);
+    expect(updatedCiudad.supermercados[0]).not.toBeNull();
+    expect(updatedCiudad.supermercados[0].nombre).toBe(newSupermercado.nombre);
+    expect(updatedCiudad.supermercados[0].longitud).toBe(newSupermercado.longitud);
+    expect(updatedCiudad.supermercados[0].latitud).toBe(newSupermercado.latitud);
+    expect(updatedCiudad.supermercados[0].paginaWeb).toBe(newSupermercado.paginaWeb);
+
+  });
+
+  it('updateSupermarketsFromCity should thrown exception for an invalid city', async () => {
+    const newSupermercado: SupermercadoEntity = await supermercadoRepository.save({
+      nombre: faker.random.alphaNumeric(11),
+      longitud: faker.datatype.number().toString(),
+      latitud: faker.datatype.number().toString(),
+      paginaWeb: faker.internet.url(), 
+    });
+    await expect(() => service.updateSupermarketsFromCity("0", [newSupermercado])).rejects.toHaveProperty("message", "No se encontró una ciudad con ese id")
+  });
+
+  it('updateSupermarketsFromCity should thrown exception for an invalid supermarket', async () => {
+    const newSupermercado: SupermercadoEntity = supermercadosList[0];
+    newSupermercado.id = "0";
+    await expect(() => service.updateSupermarketsFromCity(ciudad.id, [newSupermercado])).rejects.toHaveProperty("message", "No se encontró un supermercado con ese id")
   });
 
   it('deleteSupermarketFromCity should delete a supermarket from a city', async () => {

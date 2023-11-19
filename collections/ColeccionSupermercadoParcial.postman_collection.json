@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "a84d6daa-ba6d-4f66-9b52-6fe7d93ff6ce",
+		"name": "ColeccionSupermercadoParcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23108247"
+	},
+	"item": [
+		{
+			"name": "AddSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"supermarket_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"La Gran Tienda\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddSupermarket",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"La Gran Tienda\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"La Gran Tienda\",\n    \"longitud\": \"-60.7086\",\n    \"latitud\": \"-31.6457\",\n    \"paginaWeb\": \"www.lagrantienda.com.ar\",\n}"
+				}
+			]
+		},
+		{
+			"name": "AddInvalidSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"   pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"El nombre del supermercado debe tener más de 10 caracteres\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Tienda\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "AddInvalidSupermarket",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"nombre\": \"Santiago\",\r\n   \"pais\": \"Chile\",\r\n   \"numHabitantes\": \"4560000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 400,\n   \"message\": \"El nombre del supermercado debe tener más de 10 caracteres\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetSupermarkets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Number of supermarkets > ' + 0, function () {\r",
+							"   var data = pm.response.json()\r",
+							"   pm.expect(data.length).to.greaterThan(0)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/supermarkets",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetSupermarkets",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/supermarkets",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\r\n\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"nombre\": \"Mercado del Sol\",\r\n                    \"longitud\": \"-60.7145\",\r\n                    \"latitud\": \"-31.6324\",\r\n                    \"paginaWeb\": \"www.mercadodelsol.com.ar\"\r\n                },\r\n                {\r\n                    \"id\": \"2\",\r\n                    \"nombre\": \"La Gran Tienda\",\r\n                    \"longitud\": \"-60.7086\",\r\n                    \"latitud\": \"-31.6457\",\r\n                    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n                },\r\n                {\r\n                    \"id\": \"3\",\r\n                    \"nombre\": \"Supermaxi Córdoba\",\r\n                    \"longitud\": \"-64.1833\",\r\n                    \"latitud\": \"-31.4167\",\r\n                    \"paginaWeb\": \"www.supermaxicordoba.com.ar\"\r\n                },\r\n                {\r\n                    \"id\": \"4\",\r\n                    \"nombre\": \"Mercadito Central\",\r\n                    \"longitud\": \"-64.1888\",\r\n                    \"latitud\": \"-31.4208\",\r\n                    \"paginaWeb\": \"www.mercaditocentral.com.ar\"\r\n                }\r\n\r\n]\r\n"
+				}
+			]
+		},
+		{
+			"name": "GetSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetSupermarket",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/supermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"nombre\": \"Mercado del Sol\",\n    \"longitud\": \"-60.7145\",\n    \"latitud\": \"-31.6324\",\n    \"paginaWeb\": \"www.mercadodelsol.com.ar\",\n    \"ciudades\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "GetInvalidSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetInvalidSupermarket",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró un supermercado con ese id\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"La Gran Tienda 2\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateSupermarket",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"La Gran Tienda 2\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/supermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"La Gran Tienda 2\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateInvalidSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"La Gran Tienda 2\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UpdateInvalidSupermarket",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"La Gran Tienda 2\",\r\n    \"longitud\": \"-60.7086\",\r\n    \"latitud\": \"-31.6457\",\r\n    \"paginaWeb\": \"www.lagrantienda.com.ar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n   \"statusCode\": 404,\r\n   \"message\": \"No se encontró un supermercado con ese id\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "DeleteSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/{{supermarket_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"{{supermarket_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteSupermarket",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/suermarkets/{{supermarket_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"suermarkets",
+								"{{supermarket_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "DeleteInvalidSupermarket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"   pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"   var data = pm.response.json();\r",
+							"   pm.expect(data.message).to.eql(\"No se encontró un supermercado con ese id\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"supermarkets",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DeleteInvalidSupermarket",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/supermarkets/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"supermarkets",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n   \"statusCode\": 404,\n   \"message\": \"No se encontró un supermercado con ese id\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}
