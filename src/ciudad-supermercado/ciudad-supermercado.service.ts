@@ -53,7 +53,7 @@ export class CiudadSupermercadoService {
         return ciudadSupermercado;
     }
 
-    async updateSupermarketsFromCity(ciudadId: string, supermercadoId: string): Promise<CiudadEntity> {
+    async updateSupermarketsFromCity(ciudadId: string, supermercadoId: string, supermercado: SupermercadoEntity): Promise<CiudadEntity> {
         const persistedSupermercado: SupermercadoEntity = await this.supermercadoRepository.findOne({where: {id: supermercadoId}});
         if (!persistedSupermercado)
           throw new BusinessLogicException("No se encontró un supermercado con ese id", BusinessError.NOT_FOUND);
@@ -62,11 +62,10 @@ export class CiudadSupermercadoService {
         if (!ciudad)
           throw new BusinessLogicException("No se encontró una ciudad con ese id", BusinessError.NOT_FOUND);
         const ciudadSupermercado: SupermercadoEntity = ciudad.supermercados.find(e => e.id === persistedSupermercado.id);
-    
         if (!ciudadSupermercado)
             throw new BusinessLogicException("El supermercado con ese id no está asociado a esa ciudad", BusinessError.PRECONDITION_FAILED)
     
-        ciudad.supermercados = [{...ciudad.supermercados, ...persistedSupermercado}];
+        ciudad.supermercados = [{...ciudad.supermercados, ...persistedSupermercado, ...supermercado}];
         return await this.ciudadRepository.save(ciudad);
     }
 
