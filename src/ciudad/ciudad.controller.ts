@@ -5,7 +5,7 @@ import { CiudadService } from './ciudad.service';
 import { CiudadEntity } from './ciudad.entity';
 import { CiudadDto } from './ciudad.dto';
 
-@Controller('ciudad')
+@Controller('cities')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class CiudadController {
     constructor(private readonly ciudadService: CiudadService) {}
