@@ -24,8 +24,9 @@ export class CiudadService {
     }
 
     async create(ciudad: CiudadEntity): Promise<CiudadEntity> {
+        let listaPaises = ["Argentina", "Ecuador", "Paraguay"];
 
-        if(ciudad.pais != "Argentina" && ciudad.pais != "Ecuador" && ciudad.pais != "Paraguay")
+        if(!listaPaises.includes(ciudad.pais))
             throw new BusinessLogicException("El país solo puede tener los valores Argentina, Ecuador o Paraguay", BusinessError.BAD_REQUEST);
         
         return await this.ciudadRepository.save(ciudad);
@@ -33,10 +34,11 @@ export class CiudadService {
 
     async update(id: string, ciudad: CiudadEntity): Promise<CiudadEntity> {
         const persistedCiudad: CiudadEntity = await this.ciudadRepository.findOne({where: {id} } );
+        let listaPaises = ["Argentina", "Ecuador", "Paraguay"];
         if (!persistedCiudad)
             throw new BusinessLogicException("No se encontró una ciudad con ese id", BusinessError.NOT_FOUND);
-    
-        if(persistedCiudad.pais != "Argentina" && persistedCiudad.pais != "Ecuador" && persistedCiudad.pais != "Paraguay")
+
+        if(!listaPaises.includes(ciudad.pais))
             throw new BusinessLogicException("El país solo puede tener los valores Argentina, Ecuador o Paraguay", BusinessError.BAD_REQUEST);
         
         return await this.ciudadRepository.save({...persistedCiudad, ...ciudad});
